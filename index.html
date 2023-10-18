@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Strona z serduszkiem</title>
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        overflow: hidden;
+        
+        
+    background-image: radial-gradient(circle, #5F1623, #DFA4AE);
+    }
+
+    #heart {
+        font-size: 150px;
+        cursor: pointer;
+    }
+
+    .kiss {
+        position: absolute;
+        font-size: 20px;
+        z-index: 9999;
+        animation: blow-kiss 3s linear; /* zmiana czasu trwania animacji na 3 sekundy */
+    }
+
+    @keyframes blow-kiss {
+        0% {
+            opacity: 1;
+            transform: translate(0, 0);
+        }
+        100% {
+            opacity: 0;
+            transform: translate(
+                calc(100vw * (Math.random() - 0.5)),
+                calc(100vh * (Math.random() - 0.5))
+            );
+        }
+    }
+</style>
+</head>
+<body>
+<div id="heart" onclick="throwKiss(event)">💣</div>
+
+<script>
+    function throwKiss(event) {
+        const maxKisses = 30;
+
+        for (let i = 0; i < maxKisses; i++) {
+            const kiss = document.createElement('div');
+            kiss.innerHTML = '💋';
+            kiss.className = 'kiss';
+            document.body.appendChild(kiss);
+            animateKiss(kiss);
+        }
+    }
+
+    function animateKiss(kiss) {
+        const maxX = window.innerWidth;
+        const maxY = window.innerHeight;
+        const duration = 3000; // zmieniony czas trwania na 3 sekundy
+
+        const randomX = Math.random() * maxX - maxX / 2;
+        const randomY = Math.random() * maxY - maxY / 2;
+
+        kiss.animate(
+            [
+                { transform: 'translate(0, 0)', opacity: 1 },
+                { transform: `translate(${randomX}px, ${randomY}px)`, opacity: 0 }
+            ],
+            {
+                duration: duration,
+                easing: 'linear',
+                fill: 'forwards'
+            }
+        );
+
+        setTimeout(() => {
+            document.body.removeChild(kiss);
+        }, duration);
+    }
+
+    document.addEventListener('mousedown', function(event) {
+        throwKiss(event);
+    });
+</script>
+</body>
+</html>
